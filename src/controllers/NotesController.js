@@ -3,7 +3,7 @@ const knex = require("../database/knex")
 
 class NotesController{
     async create(request,response){ 
-        const{title,description,tags,rating} = request.body;
+        const{title,rating, description,tags} = request.body;
         const user_id = request.user.id;
 
         if (rating < 1 || rating > 5) {
@@ -12,9 +12,9 @@ class NotesController{
 
         const [note_id] = await knex("notes").insert({
             title,
+            rating,
             description,
-            user_id,
-            rating
+            user_id
         })
 
         const tagsInsert = tags.map(name => {
